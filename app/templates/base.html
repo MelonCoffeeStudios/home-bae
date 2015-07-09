@@ -1,0 +1,66 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - JAJA</title>
+    {% else %}
+    <title>Just Another Jarvis Attempt</title>
+    {% endif %}
+    <style type="text/css">
+      html, body{
+        margin: 0;
+        padding: 0;
+      }
+
+      .border-bottom {
+        border-bottom: solid 5px black;
+        width: 100vw;
+        height: auto;
+        margin-top: 10px;
+        text-align: center;
+    }
+    .border-bottom{
+      width: 100%;
+    }
+    .logmessage{
+      list-style: none;
+      background: green;
+      color: white;
+      width: 30vw;
+      margin-left: 35vw;
+    }
+    .system-logs {
+      width: 45vw;
+      height: auto;
+      max-height: 50%;
+      overflow-y: scroll;
+    }
+    .console-container{
+      width: 40vw;
+    }
+    .content {
+      width: 100vw;
+      display: inline;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="border-bottom">MCS JAJA Control Panel: <a href="/">Home</a>
+    {% if session['logged_in'] %}
+      | <a href="/logout">Logout</a>
+    {% else %}
+      | <a href="/login">Login</a>
+    {% endif %}
+    <br>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+            <div class="logmessage">{{ message }} </div>
+        {% endfor %}
+      {% endif %}
+      </div>
+    {% endwith %}
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

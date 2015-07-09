@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Hi, {{ user.firstName }}! (ID: {{ user.id }})</h1>
+    <div class="system-logs">
+	    {% for log in logs %}
+	    <p>
+	      {{ log.user }} says: <b>{{ log.post }}</b>
+	    </p>
+	    {% endfor %}
+    </div>
+    <div class="console-container">
+    	<div class="console"></div>
+    	<input class="console-input" type="text" /><button id="send-command">Hi</button>
+    </div>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+    $(function(){
+    	$("#send-command").click(function(){
+            call()
+    	})
+        $(".console-input").keypress(function(e) {
+            if(e.which == 13) {
+                call()
+            }
+        });
+    });
+
+    function call(){
+        console.log("Sending")
+        var data = {command: $(".console-input").val(),
+                    user: "{{ user.firstName }}" }
+        $.ajax({
+              url: "/commands",
+              data: data,
+              type: "POST"
+            }).done(function(data){
+                $(".system-logs").prepend("<p>"+data+"</p>")
+                $(".console-input").val("")
+            });
+    }
+    </script>
+{% endblock %}
